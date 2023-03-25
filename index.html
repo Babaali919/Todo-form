@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo-form</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo-list</title>
 </head>
 <body>
-    
+  <form id="todoForm">
+    <input id="taskInput">
+    <button type="button">submit</button>
+  </form>
+  <ol type="i" id="taskList"></ol>
+
+  <script>
+    //reference the form.
+    const form = document.getElementById("todoForm");
+    const taskList = document.getElementById("taskList");
+
+    //prevent the form from submitting
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      //add task
+      const taskInput = document.getElementById("taskInput");
+      const task = taskInput.value;
+      if (task) {
+        const li = document.createElement("li");
+        li.textContent = task;
+        taskList.appendChild(li);
+
+        //clear the input field when the submit button is hit.
+        taskInput.value = ""; }
+    })
+//Add a delete button
+taskList.addEventListener("click", event => {
+  if (event.target.tagName == "LI" && !event.target.classList.contains("deleted")) {
+    const li = event.target;
+    const button = document.createElement("button");
+    button.textContent = "Delete";
+    li.appendChild(button);
+    li.classList.add("deleted"); // add a "deleted" class to the task
+  }
+})
+
+//Delete task when the delete Button is clicked.
+taskList.addEventListener("click", event => {
+  if (event.target.tagName == "BUTTON") {
+    const button = event.target;
+    const li = button.parentNode;
+    taskList.removeChild(li);
+  }
+})
+
+  </script>
 </body>
 </html>
